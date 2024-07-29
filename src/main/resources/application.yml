@@ -17,7 +17,7 @@ spring:
         format_sql: true
         use_sql_comments: true
     hibernate:
-      ddlAuto: create
+      ddlAuto: update
 
   # 라이브 리로드 설정
   devtools:
@@ -28,6 +28,8 @@ spring:
   web:
     resources:
       staticLocations: file:src/main/resources/static/
+
+
 
   # 파일 업로드 용량 설정
   servlet:
