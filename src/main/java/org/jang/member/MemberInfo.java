@@ -14,6 +14,8 @@ public class MemberInfo implements UserDetails {
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
+    //<? extends GrantedAuthority> 상속하는 어떤 타입이든 올수있음
+    //authorities: 이 변수는 사용자 또는 객체의 권한을 나타내는 GrantedAuthority 객체들을 저장하는 Collection입니다
     private Member member;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -32,7 +34,7 @@ public class MemberInfo implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
     //계정이 잠겨있는지 확인
     @Override
@@ -45,7 +47,7 @@ public class MemberInfo implements UserDetails {
         return true;
     }
 
-    @Override
+    @Override // false 이면 로그인 불가 상태
     public boolean isEnabled() {
         return true;
     }
