@@ -3,8 +3,6 @@ package org.jang.member.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jang.global.entities.BaseEntity;
-
-
 import java.util.List;
 @Data
 @Entity
@@ -13,6 +11,8 @@ import java.util.List;
 public class Member extends BaseEntity {
     @Id @GeneratedValue
     private Long seq;
+
+    private String gid;
 
     @Column(length=65, unique = true, nullable = false)
     private String email;

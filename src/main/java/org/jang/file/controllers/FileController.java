@@ -2,6 +2,9 @@ package org.jang.file.controllers;
 import lombok.RequiredArgsConstructor;
 
 import org.jang.file.entities.FileInfo;
+import org.jang.file.services.FileDeleteService;
+import org.jang.file.services.FileDownloadService;
+import org.jang.file.services.FileInfoService;
 import org.jang.file.services.FileUploadService;
 import org.jang.global.exceptions.RestExceptionProcessor;
 import org.jang.global.rests.JSONData;
@@ -18,11 +21,14 @@ import java.util.List;
 public class FileController implements RestExceptionProcessor {
 
     private final FileUploadService uploadService;
+    private final FileDownloadService downloadService;
+    private final FileInfoService infoService;
+    private final FileDeleteService deleteService;
 
     @PostMapping("/upload")
     public ResponseEntity<JSONData> upload(@RequestPart("file") MultipartFile[] files,
-                                           @RequestParam(name="gid", required = false) String gid,
-                                           @RequestParam(name="location", required = false) String location) {
+                                           @RequestParam(name = "gid", required = false) String gid,
+                                           @RequestParam(name = "location", required = false) String location) {
 
 
         List<FileInfo> items = uploadService.upload(files, gid, location);
@@ -33,5 +39,30 @@ public class FileController implements RestExceptionProcessor {
         return ResponseEntity.status(status).body(data);
     }
 
+    @GetMapping("/download/{seq}")
+    public void download(@PathVariable("seq") Long seq) {
+        downloadService.download(seq);
+    }
 
+    @DeleteMapping("/delete/{seq}")
+    public JSONData delete(@PathVariable("seq") Long seq) {
+       FileInfo data = deleteService.delete(seq);
+       return new JSONData(data);
+    }
+    @DeleteMapping("/deletes/{gid}")
+    public JSONData deletes(@PathVariable("gid") String gid,  @RequestParam(name = "location", required = false) String location){
+        List<FileInfo> items = deleteService.delete(gid,location);
+        return new JSONData(items);
+    }
+    @GetMapping("/info/{seq}")
+    public JSONData get(@PathVariable("seq") Long seq){
+        FileInfo data = infoService.get(seq);
+        return new JSONData(data);
+    }
+    @GetMapping("/list/{gid}")
+    public JSONData getList(@PathVariable("gid") String gid, @RequestParam(name = "location", required = false) String location){
+        List<FileInfo> items = infoService.getList(gid,location);
+
+        return new JSONData(items);
+    }
 }

@@ -21,6 +21,7 @@ import java.util.UUID;
 public class FileUploadService {
 
     private final FileInfoRepository fileInfoRepository;
+    private final FileInfoService fileInfoService;
     private final FileProperties properties;
 
     public List<FileInfo> upload(MultipartFile[] files, String gid, String location) {
@@ -40,6 +41,7 @@ public class FileUploadService {
             String fileName = file.getOriginalFilename(); // 업로드 파일 원래 이름
             String contentType = file.getContentType(); // 파일 형식
             String extension = fileName.substring(fileName.lastIndexOf("."));
+            //.txt
 
             FileInfo fileInfo = FileInfo.builder()
                     .gid(gid)
@@ -72,6 +74,7 @@ public class FileUploadService {
                 fileInfoRepository.flush();
             }
         }
+        uploadedFiles.forEach(fileInfoService::addFileInfo);
 
         return uploadedFiles;
     }

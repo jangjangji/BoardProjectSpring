@@ -47,6 +47,12 @@
                 <div class="error" th:each="err : ${#fields.errors('mobile')}" th:text="${err}"></div>
             </dd>
         </dl>
+        <dl>
+            <dt th:text="#{프로필_이미지}"></dt>
+            <dd>
+                <button type="button" th:text="#{이미지_업로드}"class="fileUploads"></button>
+            </dd>
+        </dl>
         <div class="terms">
             <div class="tit" th:text="#{회원가입_약관}"></div>
             <div class="terms-contents">회원가입 약관...</div>
